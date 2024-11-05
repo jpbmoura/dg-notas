@@ -20,7 +20,7 @@ const SignUp = () => {
 
   return (
     <>
-      <h1 className="font-semibold text-4xl">Bem-vindo!</h1>
+      <h1 className="font-semibold text-2xl">Bem-vindo!</h1>
       <Button className="w-full" variant="outline">
         <Image src={googleLogo} alt="google logo" className="size-[18px]" />
         Cadastre-se com o Google
@@ -78,7 +78,7 @@ const SignUp = () => {
             )}
           />
 
-          <div className="flex flex-col w-full pt-8 gap-2 items-center">
+          <div className="flex flex-col w-full pt-4 gap-2 items-center">
             <Button
               variant="primary"
               type="submit"
