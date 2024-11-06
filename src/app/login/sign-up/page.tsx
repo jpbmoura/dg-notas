@@ -20,17 +20,19 @@ const SignUp = () => {
 
   return (
     <>
-      <h1 className="font-semibold text-2xl">Bem-vindo!</h1>
-      <Button className="w-full" variant="outline">
+      <h1 className="font-semibold text-2xl dark:text-[#EDEBE1]">Bem-vindo!</h1>
+      <Button className="w-full" variant="google">
         <Image src={googleLogo} alt="google logo" className="size-[18px]" />
         Cadastre-se com o Google
       </Button>
       <div className="flex flex-row justify-between items-center w-full">
-        <Separator className="bg-[#8E95A2] shrink" />
-        <p className="self-center px-[10px]">ou</p>
-        <Separator className="bg-[#8E95A2] shrink" />
+        <Separator className="bg-[#8E95A2] shrink dark:bg-[#8E95A2]" />
+        <p className="self-center px-[10px] dark:text-[#EDEBE1]">ou</p>
+        <Separator className="bg-[#8E95A2] shrink dark:bg-[#8E95A2]" />
       </div>
-      <h2 className="font-semibold text-2xl self-start">Cadastre-se</h2>
+      <h2 className="font-semibold text-2xl self-start dark:text-[#EDEBE1]">
+        Cadastre-se
+      </h2>
 
       <Form {...form}>
         <form
@@ -86,9 +88,9 @@ const SignUp = () => {
             >
               Cadastrar
             </Button>
-            <span>
+            <span className="dark:text-[#EDEBE1]">
               Já possui uma conta?{" "}
-              <Link className="underline text-[#0075FF]" href="/login">
+              <Link className="underline text-azure-radiance-600" href="/login">
                 Faça login
               </Link>
             </span>

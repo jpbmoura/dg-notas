@@ -21,7 +21,9 @@ const buttonVariants = cva(
           "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
         link: "text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50",
         primary:
-          "bg-azure-radiance-500 text-azure-radiance-50 shadow hover:bg-azure-radiance-500/90 dark:bg-azure-radiance-50 dark:text-azure-radiance-900 dark:hover:bg-azure-radiance-50/90",
+          "bg-azure-radiance-500 text-azure-radiance-50 shadow hover:bg-azure-radiance-500/90 dark:bg-azure-radiance-500 dark:text-[#EDEBE1] dark:hover:bg-azure-radiance-600",
+        google:
+          "border border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-[#DADADA] dark:hover:bg-[#adadad] ",
       },
       size: {
         default: "h-9 px-4 py-2",

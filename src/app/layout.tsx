@@ -1,6 +1,8 @@
+"use client";
 import { Roboto } from "next/font/google";
 
 import "./globals.css";
+import { useThemeStore } from "@/store/theme-store";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -12,9 +14,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isDark } = useThemeStore();
   return (
     <html lang="en">
-      <body className={`${roboto.className}  antialiased`}>{children}</body>
+      <body className={`${roboto.className} ${isDark && "dark "} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }

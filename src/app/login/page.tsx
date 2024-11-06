@@ -21,17 +21,21 @@ const Login = () => {
 
   return (
     <>
-      <h1 className="font-semibold text-2xl">Bem-vindo de volta!</h1>
-      <Button className="w-full" variant="outline">
+      <h1 className="font-semibold text-2xl dark:text-[#EDEBE1]">
+        Bem-vindo de volta!
+      </h1>
+      <Button className="w-full" variant="google">
         <Image src={googleLogo} alt="google logo" className="size-[18px]" />
         Fazer Login com o Google
       </Button>
       <div className="flex flex-row justify-between items-center w-full">
-        <Separator className="bg-[#8E95A2] shrink" />
-        <p className="self-center px-[10px]">ou</p>
-        <Separator className="bg-[#8E95A2] shrink" />
+        <Separator className="bg-[#8E95A2] dark:bg-[#8E95A2] shrink" />
+        <p className="self-center px-[10px] dark:text-[#EDEBE1]">ou</p>
+        <Separator className="bg-[#8E95A2] shrink dark:bg-[#8E95A2] " />
       </div>
-      <h2 className="font-semibold text-2xl self-start">Login</h2>
+      <h2 className="font-semibold text-2xl self-start dark:text-[#EDEBE1]">
+        Login
+      </h2>
 
       <Form {...form}>
         <form
@@ -64,7 +68,7 @@ const Login = () => {
           />
 
           <div className="flex flex-row justify-between">
-            <span className="flex flex-row items-center gap-1">
+            <span className="flex flex-row items-center gap-1 dark:text-[#EDEBE1]">
               <Checkbox />
               <span>Mantenha-me conectado</span>
             </span>
@@ -82,7 +86,7 @@ const Login = () => {
             >
               Entrar
             </Button>
-            <span>
+            <span className="dark:text-[#EDEBE1]">
               Ainda não possui conta?{" "}
               <Link className="underline text-[#0075FF]" href="/login/sign-up">
                 Cadastre-se
