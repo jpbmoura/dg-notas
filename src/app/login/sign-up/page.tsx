@@ -12,11 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import Link from "next/link";
+import { authServices } from "@/services/auth-services";
 
 const SignUp = () => {
   const form = useForm();
+
+  const handleCreateUser = (data: FieldValues) => {
+    authServices.createUser(data);
+  };
 
   return (
     <>
@@ -36,7 +41,7 @@ const SignUp = () => {
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((e) => console.log(e))}
+          onSubmit={form.handleSubmit((e) => handleCreateUser(e))} // Add handleCreateUser function
           className="space-y-4 w-full"
         >
           <FormField
