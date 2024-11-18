@@ -75,11 +75,7 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col w-full pt-8 gap-2 items-center">
-            <Button
-              variant="primary"
-              type="submit"
-              className="w-full font-semibold text-base"
-            >
+            <Button type="submit" className="w-full font-semibold text-base">
               Entrar
             </Button>
             <span>
