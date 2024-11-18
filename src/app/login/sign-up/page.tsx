@@ -79,11 +79,7 @@ const SignUp = () => {
           />
 
           <div className="flex flex-col w-full pt-8 gap-2 items-center">
-            <Button
-              variant="primary"
-              type="submit"
-              className="w-full font-semibold text-base"
-            >
+            <Button type="submit" className="w-full font-semibold text-base">
               Cadastrar
             </Button>
             <span>
