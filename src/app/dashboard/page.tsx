@@ -1,7 +1,11 @@
+import { Separator } from "@/components/ui/separator";
+
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="flex flex-col gap-3">
+      <h1 className="font-semibold text-3xl pt-2">Home</h1>
+      <Separator />
+      <div>RESTO</div>
     </div>
   );
 };
