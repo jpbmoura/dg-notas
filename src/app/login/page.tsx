@@ -1,5 +1,6 @@
 "use client";
 
+import { setCookie } from "nookies";
 import googleLogo from "@/assets/images/google-logo.svg";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,7 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 interface LoginProps {
   email: string;
@@ -39,7 +40,11 @@ const Login = () => {
       setLoading(true);
       const result = await authServices.userAuthenticate(data);
 
-      window.localStorage.setItem("token", result.token);
+      setCookie(null, "token", result.token, {
+        maxAge: 60 * 60 * 24 * 7, // 7 dias
+        path: "/", // Disponível em toda a aplicação
+        httpOnly: false, // O JavaScript pode acessar o cookie
+      });
 
       decodeToken(result.token);
       router.push("/dashboard");

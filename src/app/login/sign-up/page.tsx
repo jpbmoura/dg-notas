@@ -20,6 +20,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { setCookie } from "nookies";
 
 const SignUp = () => {
   const form = useForm();
@@ -69,7 +70,13 @@ const SignUp = () => {
       email: user.email,
       password: user.password,
     });
-    window.localStorage.setItem("token", result.token);
+
+    setCookie(null, "token", result.token, {
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      path: "/", // Disponível em toda a aplicação
+      httpOnly: false, // O JavaScript pode acessar o cookie
+    });
+
     router.push("/dashboard");
   };
 
