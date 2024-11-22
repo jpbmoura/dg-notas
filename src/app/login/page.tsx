@@ -12,12 +12,44 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { authServices } from "@/services/auth-services";
+import { useUserStore } from "@/store/user-store";
+import { AxiosError } from "axios";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { set, useForm } from "react-hook-form";
 
+interface LoginProps {
+  email: string;
+  password: string;
+}
 const Login = () => {
   const form = useForm();
+  const [invalidLogin, setInvalidLogin] = React.useState(false);
+  const [passwordVisibility, setPasswordVisibility] = React.useState(false);
+  const { decodeToken } = useUserStore();
+  const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+
+  async function handleSubmit(data: LoginProps) {
+    try {
+      setLoading(true);
+      const result = await authServices.userAuthenticate(data);
+
+      window.localStorage.setItem("token", result.token);
+
+      decodeToken(result.token);
+      router.push("/dashboard");
+    } catch (error) {
+      setLoading(false);
+      if ((error as AxiosError)?.response?.status === 500) {
+        setInvalidLogin(true);
+      }
+    }
+  }
 
   return (
     <>
@@ -39,7 +71,7 @@ const Login = () => {
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((e) => console.log(e))}
+          onSubmit={form.handleSubmit((e) => handleSubmit(e as LoginProps))} //erro aqui
           className="space-y-4 w-full"
         >
           <FormField
@@ -48,7 +80,15 @@ const Login = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="E-mail" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="E-mail"
+                    {...field}
+                    {...form.register("email", {
+                      required: true,
+                      onChange: () => setInvalidLogin(false),
+                    })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -60,12 +100,39 @@ const Login = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder="Senha" {...field} />
+                  <Input
+                    className="pr-10"
+                    type={passwordVisibility ? "text" : "password"}
+                    placeholder="Senha"
+                    {...field}
+                    passwordIcon={
+                      passwordVisibility ? (
+                        <EyeOff
+                          className="absolute right-3 top-2 text-[#a8a8a8] size-6 md:size-5"
+                          onClick={() => setPasswordVisibility(false)}
+                        />
+                      ) : (
+                        <Eye
+                          className="absolute right-3 top-2 text-[#a8a8a8] md:size-5"
+                          onClick={() => setPasswordVisibility(true)}
+                        />
+                      )
+                    }
+                    {...form.register("password", {
+                      required: true,
+                      onChange: () => setInvalidLogin(false),
+                    })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {invalidLogin && (
+            <div className="text-red-400 font-semibold te p-2 rounded-md flex justify-center">
+              E-mail ou Senha inválida, tente novamente
+            </div>
+          )}
 
           <div className="flex flex-row justify-between">
             <span className="flex flex-row items-center gap-1 dark:text-[#EDEBE1]">
@@ -83,8 +150,9 @@ const Login = () => {
               variant="primary"
               type="submit"
               className="w-full font-semibold text-base"
+              disabled={loading}
             >
-              Entrar
+              {loading ? <Loader2 className="animate-spin" /> : "Entrar"}
             </Button>
             <span className="dark:text-[#EDEBE1]">
               Ainda não possui conta?{" "}

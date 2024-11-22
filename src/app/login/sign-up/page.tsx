@@ -15,12 +15,62 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import Link from "next/link";
 import { authServices } from "@/services/auth-services";
+import { useToast } from "@/hooks/use-toast";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const SignUp = () => {
   const form = useForm();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  const handleCreateUser = (data: FieldValues) => {
-    authServices.createUser(data);
+  const handleCreateUser = async (data: FieldValues) => {
+    if (data.password === data["password-verify"]) {
+      const user = {
+        email: data.email,
+        username: data.nome,
+        password: data.password,
+      };
+
+      try {
+        await authServices.createUser(user);
+        toast({
+          variant: "default",
+          tw: "bg-green-500",
+          title: "Usuário criado com sucesso",
+          description: "Faça login para acessar o sistema",
+        });
+        redirectUser(user);
+      } catch (error) {
+        if ((error as AxiosError)?.response?.status === 400) {
+          toast({
+            variant: "destructive",
+            title: "Erro ao criar usuário",
+            description: "E-mail já cadastrado",
+          });
+        }
+      }
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Senha Incorreta",
+        description: "por favor, confirme sua senha corretamente",
+      });
+    }
+    return;
+  };
+
+  const redirectUser = async (user: FieldValues) => {
+    setLoading(true);
+    const result = await authServices.userAuthenticate({
+      email: user.email,
+      password: user.password,
+    });
+    window.localStorage.setItem("token", result.token);
+    router.push("/dashboard");
   };
 
   return (
@@ -51,6 +101,18 @@ const SignUp = () => {
               <FormItem>
                 <FormControl>
                   <Input placeholder="E-mail" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nome"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Nome" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -90,8 +152,9 @@ const SignUp = () => {
               variant="primary"
               type="submit"
               className="w-full font-semibold text-base"
+              disabled={loading}
             >
-              Cadastrar
+              {loading ? <Loader2 className="animate-spin" /> : "Cadastrar"}
             </Button>
             <span className="dark:text-[#EDEBE1]">
               Já possui uma conta?{" "}

@@ -23,7 +23,7 @@ class AuthServices {
 
       return response;
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   };
 
@@ -38,7 +38,7 @@ class AuthServices {
 
       return response;
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   };
 }
