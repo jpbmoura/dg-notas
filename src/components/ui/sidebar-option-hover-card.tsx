@@ -32,12 +32,12 @@ const SideBardOptionHoverCard = ({
         <HoverCardContent
           align="start"
           side={isMobileScreen() ? "top" : "right"}
-          className="w-screen md:w-min"
+          className="w-screen md:w-min  dark:bg-woodsmoke-300 dark:text-woodsmoke-50"
         >
           {items.map((item) => (
             <Button
               key={item.path}
-              variant="ghost"
+              variant="link"
               className="w-full hover:font-bold "
               onClick={() => {
                 // navigate(item.path);

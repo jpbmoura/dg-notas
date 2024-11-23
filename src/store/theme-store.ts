@@ -8,7 +8,8 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()((set) => ({
   isDark: false,
   setIsDark: (value) =>
-    set(() => ({
-      isDark: value,
-    })),
+    set(() => {
+      window.localStorage.setItem("isdark", JSON.stringify(value));
+      return { isDark: value };
+    }),
 }));

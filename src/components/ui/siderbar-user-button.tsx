@@ -3,8 +3,11 @@
 import { CircleHelp, Lightbulb, LogOut, User, Wrench } from "lucide-react";
 import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { useThemeStore } from "@/store/theme-store";
 
 const SideBarUserButton = () => {
+  const { isDark, setIsDark } = useThemeStore();
+
   function isMobileScreen() {
     return window.innerWidth <= 768;
   }
@@ -15,10 +18,10 @@ const SideBarUserButton = () => {
       </PopoverTrigger>
       <PopoverContent
         side={isMobileScreen() ? "top" : "right"}
-        className="md:w-[220px] w-screen"
+        className="md:w-[220px] w-screen  dark:bg-woodsmoke-300 dark:text-woodsmoke-50"
         align="start"
       >
-        <div className="flex flex-row gap-1 items-center border w-full p-2 h-14 rounded-md">
+        <div className="flex flex-row gap-1 items-center border dark:border-woodsmoke-100 w-full p-2 h-14 rounded-md">
           <div className="flex flex-col">
             <span className="text-lg">Matheus Augusto</span>
             <span className="text-sm">Empresa &gt;</span>
@@ -34,10 +37,11 @@ const SideBarUserButton = () => {
             <Wrench className="" />
             Configurações
           </Button>
-          <Button variant="link">
-            <Lightbulb className="" />
+          <Button variant="link" onClick={() => setIsDark(!isDark)}>
+            <Lightbulb className="dark:text-yellow-500" />
             Mudar Tema
           </Button>
+
           <Button variant="link">
             <LogOut className="" />
             Sair

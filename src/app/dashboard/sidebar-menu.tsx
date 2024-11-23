@@ -9,7 +9,7 @@ import SideBarUserButton from "@/components/ui/siderbar-user-button";
 
 const SidebarMenu = () => {
   return (
-    <div className="flex flex-row gap-2 items-center md:flex-col">
+    <div className="flex flex-row gap-2 items-center md:flex-col ">
       <Button variant="ghost" className="size-[60px] p-[5px]">
         <Image src={dgLogo} alt="dg-notas-logo" />
       </Button>

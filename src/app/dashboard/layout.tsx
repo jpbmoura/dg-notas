@@ -9,8 +9,8 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <div className="w-full h-dvh flex flex-col-reverse md:p-2 gap-2 bg-[#F5F5F5] md:flex-row">
-      <div className="bg-[#DADADA] p-2 rounded-lg flex flex-row items-center justify-between md:flex-col md:bg-white">
+    <div className="w-full h-dvh flex flex-col-reverse md:p-2 gap-2 bg-[#F5F5F5] md:flex-row dark:text-woodsmoke-50 dark:bg-woodsmoke-300">
+      <div className="bg-[#DADADA] p-2 rounded-lg flex flex-row items-center justify-between md:flex-col md:bg-white dark:bg-woodsmoke-200">
         <SidebarMenu />
 
         <div className="flex flex-col justify-center items-center hidden">
@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </div>
       </div>
 
-      <div className="bg-white p-5 rounded-lg flex flex-col w-full h-[calc(100vh-1.25rem)] overflow-auto">
+      <div className="bg-white p-5 rounded-lg flex flex-col w-full h-[calc(100vh-1.25rem)] overflow-auto dark:bg-woodsmoke-200">
         <div>{children}</div>
       </div>
     </div>
