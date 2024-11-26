@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
+import { useRouter } from "next/navigation";
 
 interface SideBardOptionHoverCardProps {
   items: { name: string; path: string }[];
@@ -14,10 +15,21 @@ const SideBardOptionHoverCard = ({
   children,
 }: SideBardOptionHoverCardProps) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  function isMobileScreen() {
-    return window.innerWidth <= 768;
-  }
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIsMobile();
+
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   return (
     <div
@@ -31,7 +43,7 @@ const SideBardOptionHoverCard = ({
         </HoverCardTrigger>
         <HoverCardContent
           align="start"
-          side={isMobileScreen() ? "top" : "right"}
+          side={isMobile ? "top" : "right"}
           className="w-screen md:w-min  dark:bg-woodsmoke-300 dark:text-woodsmoke-50"
         >
           {items.map((item) => (
@@ -40,7 +52,7 @@ const SideBardOptionHoverCard = ({
               variant="link"
               className="w-full hover:font-bold "
               onClick={() => {
-                // navigate(item.path);
+                router.push(item.path);
               }}
             >
               {item.name}

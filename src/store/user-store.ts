@@ -6,6 +6,7 @@ interface UserStore {
   userEmail: string;
   userName: string;
   decodedToken: any;
+  isExpired: number;
 
   setUserInfo: (items: any) => any;
   decodeToken: (token: string) => any;
@@ -15,7 +16,7 @@ export const useUserStore = create<UserStore>()((set) => ({
   userEmail: "",
   userName: "",
   decodedToken: "",
-  isExpired: false,
+  isExpired: 0,
 
   setUserInfo: (items) =>
     set(() => ({
@@ -28,13 +29,12 @@ export const useUserStore = create<UserStore>()((set) => ({
   //   })),
   decodeToken: (token) => {
     const decoded: any = jwtDecode(token);
-    const isExpired = decoded.exp * 1000 < Date.now();
 
     set(() => ({
       decodedToken: decoded,
       userEmail: decoded.email,
       userName: decoded.username,
-      isExpired,
+      isExpired: decoded.exp,
     }));
   },
 }));

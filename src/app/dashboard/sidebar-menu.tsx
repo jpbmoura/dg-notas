@@ -19,11 +19,11 @@ const SidebarMenu = () => {
       {/* exemplo de uso de menu */}
       <SideBardOptionHoverCard
         items={[
+          { name: "Listar Empresas", path: "/dashboard/empresa" },
           {
             name: "Cadastrar Empresa",
             path: "/dashboard/empresa/cadastrar",
           },
-          { name: "Listar Empresas", path: "/dashboard/empresa/listar" },
         ]}
       >
         <House className="size-full" />

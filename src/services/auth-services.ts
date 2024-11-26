@@ -15,7 +15,7 @@ class AuthServices {
   public userAuthenticate = async (data: IUserLogin): Promise<any> => {
     try {
       const response = await post(
-        `https://dgnotas-dev.up.railway.app/auth/sign`,
+        `https://dgnotas-dev.up.railway.app/auth/login`,
         data
       ).then((response: any) => {
         return response;
@@ -26,7 +26,6 @@ class AuthServices {
       throw error;
     }
   };
-
   public createUser = async (data: IUserCreate): Promise<any> => {
     try {
       const response = await post(
