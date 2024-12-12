@@ -6,7 +6,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { useRouter } from "next/navigation";
 
 interface SideBardOptionHoverCardProps {
-  items: { name: string; path: string }[];
+  items: { name: string; path?: string }[];
   children: React.ReactNode;
 }
 
@@ -38,13 +38,20 @@ const SideBardOptionHoverCard = ({
       onMouseOver={() => setOpen(true)}
     >
       <HoverCard openDelay={0} closeDelay={0} open={open}>
-        <HoverCardTrigger className="flex justify-center items-center size-10 p-2 ">
+        <HoverCardTrigger
+          className="flex justify-center items-center size-10 p-2 "
+          onClick={() => {
+            if (items[0].path) router.push(items[0].path);
+          }}
+        >
           {children}
         </HoverCardTrigger>
         <HoverCardContent
           align="start"
           side={isMobile ? "top" : "right"}
-          className="w-screen md:w-min  dark:bg-woodsmoke-300 dark:text-woodsmoke-50"
+          className={` w-screen md:w-min  dark:bg-woodsmoke-300 dark:text-woodsmoke-50 ${
+            items.length === 1 ? "hidden md:flex" : ""
+          }`}
         >
           {items.map((item) => (
             <Button
@@ -52,7 +59,7 @@ const SideBardOptionHoverCard = ({
               variant="link"
               className="w-full hover:font-bold "
               onClick={() => {
-                router.push(item.path);
+                if (item.path) router.push(item.path);
               }}
             >
               {item.name}

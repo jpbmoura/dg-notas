@@ -50,7 +50,7 @@ const Login = () => {
       router.push("/dashboard");
     } catch (error) {
       setLoading(false);
-      if ((error as AxiosError)?.response?.status === 500) {
+      if ((error as AxiosError)?.response?.status === 500 || 501) {
         setInvalidLogin(true);
       }
     }

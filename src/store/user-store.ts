@@ -7,6 +7,7 @@ interface UserStore {
   userName: string;
   decodedToken: any;
   isExpired: number;
+  id: string;
 
   setUserInfo: (items: any) => any;
   decodeToken: (token: string) => any;
@@ -17,7 +18,7 @@ export const useUserStore = create<UserStore>()((set) => ({
   userName: "",
   decodedToken: "",
   isExpired: 0,
-
+  id: "",
   setUserInfo: (items) =>
     set(() => ({
       userEmail: items?.email,
@@ -35,6 +36,7 @@ export const useUserStore = create<UserStore>()((set) => ({
       userEmail: decoded.email,
       userName: decoded.username,
       isExpired: decoded.exp,
+      id: decoded.id,
     }));
   },
 }));
