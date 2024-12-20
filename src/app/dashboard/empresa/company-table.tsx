@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -7,23 +9,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useEffect } from "react";
 import { ActionPopover } from "./action-popover";
+import { companyServices } from "@/services/company-services";
+import { useUserStore } from "@/store/user-store";
+import { useCompanies } from "@/store/company-store";
 
-interface Invoice {
-  id: number;
-  nome: string;
-  rSocial: string;
-  cnpj: string;
-  email: string;
-  telefone: string;
-}
+// interface Invoice {
+//   id: number;
+//   name: string;
+//   companySocialName: string;
+//   socialSecurityNumber: string;
+//   email: string;
+//   phone: string;
+// }
 
-interface EnterpriseTableProps {
-  invoices: Invoice[];
-}
+const CompanyTable = () => {
+  const { id } = useUserStore();
+  const { companies, setCompanies } = useCompanies();
 
-const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ invoices }) => {
+  useEffect(() => {
+    if (!id) return;
+    if (companies.length > 0) return;
+    companyServices.getAll(1, id).then((response) => {
+      setCompanies(response);
+    });
+  }, [id]);
+
   return (
     <Table className="overflow-hidden">
       <TableHeader className="dark:bg-woodsmoke-400 bg-[#f5f5f5]">
@@ -37,13 +49,17 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ invoices }) => {
         </TableRow>
       </TableHeader>
       <TableBody className="dark:bg-woodsmoke-300 overflow-auto">
-        {invoices.map((invoice) => (
+        {companies.map((invoice) => (
           <TableRow key={invoice.id} className="dark:border-woodsmoke-100">
-            <TableCell className="text-center">{invoice.nome}</TableCell>
-            <TableCell className="text-center">{invoice.rSocial}</TableCell>
-            <TableCell className="text-center">{invoice.cnpj}</TableCell>
+            <TableCell className="text-center">{invoice.name}</TableCell>
+            <TableCell className="text-center">
+              {invoice.companySocialName}
+            </TableCell>
+            <TableCell className="text-center">
+              {invoice.socialSecurityNumber}
+            </TableCell>
             <TableCell className="text-center">{invoice.email}</TableCell>
-            <TableCell className="text-center">{invoice.telefone}</TableCell>
+            <TableCell className="text-center">{invoice.phone}</TableCell>
             <TableCell className="text-center">
               <ActionPopover />
             </TableCell>
@@ -59,4 +75,4 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ invoices }) => {
   );
 };
 
-export default EnterpriseTable;
+export default CompanyTable;

@@ -8,7 +8,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> | any;
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, passwordIcon, ...props }, ref) => {
     return (
-      <div className="relative">
+      <div className="relative w-full">
         <input
           type={type}
           className={cn(

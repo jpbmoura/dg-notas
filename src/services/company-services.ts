@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parseCookies } from "nookies";
-import { post } from "../helpers/api/api";
+import { post, get } from "../helpers/api/api";
 
 export interface ICompany {
+  id?: string;
   coreName: string;
   socialName: string;
   socialSecurityNumber: string;
@@ -36,6 +37,27 @@ class CompanyServices {
         }
       ).then((response: any) => {
         return response;
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+  public getAll = async (page: number, id: string): Promise<any> => {
+    try {
+      const token = parseCookies().token;
+
+      const response = await get(
+        `https://dgnotas-dev.up.railway.app/company/find/all/${id}?page=${page}`,
+        null,
+        {
+          Authorization: "Bearer " + token,
+        }
+      ).then((response: any) => {
+        console.log(response, "response");
+
+        return response.companies;
       });
 
       return response;

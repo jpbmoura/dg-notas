@@ -6,6 +6,7 @@ import SidebarMenu from "./sidebar-menu";
 import { useUserStore } from "@/store/user-store";
 import { useEffect } from "react";
 import { parseCookies } from "nookies";
+import useMiddleware from "@/middleware-client";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
     decodeToken(cookies.token);
   }, []);
+
+  useMiddleware();
 
   return (
     <div className="w-full h-dvh flex flex-col-reverse md:p-2 gap-2 bg-[#F5F5F5] md:flex-row dark:text-woodsmoke-50 dark:bg-woodsmoke-300">

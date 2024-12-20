@@ -27,6 +27,8 @@ const RegisterCompanyForm = () => {
   const { register, handleSubmit } = useForm<ICompany>();
   const { id } = useUserStore();
   const router = useRouter();
+  const form = useForm();
+  const [preview, setPreview] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<ICompany> = async (data) => {
@@ -53,9 +55,6 @@ const RegisterCompanyForm = () => {
       }
     }
   };
-
-  const form = useForm();
-  const [preview, setPreview] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const transformData = (data: any) => {
@@ -213,7 +212,7 @@ const RegisterCompanyForm = () => {
               render={({ field }) => (
                 <FormItem
                   {...register("CNAE", { required: true })}
-                  className=""
+                  className="pt-5"
                 >
                   <FormLabel>CNAE</FormLabel>
                   <Select
@@ -317,11 +316,7 @@ const RegisterCompanyForm = () => {
               placeholder="Bairro"
               {...register("district", { required: true })}
             />
-            <Input
-              type="text"
-              placeholder="Cidade"
-              {...register("city", { required: true })}
-            />
+
             <FormField
               control={form.control}
               name="state"
@@ -348,6 +343,37 @@ const RegisterCompanyForm = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem
+                  {...register("city", { required: true })}
+                  className=" "
+                >
+                  <FormLabel>Cidade</FormLabel>
+                  <Select
+                    {...register("city")}
+                    onValueChange={field.onChange}
+                    onOpenChange={field.onBlur}
+                  >
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Selecione uma opção..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="Pará">Pará</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            {/* <Input
+              type="text"
+              placeholder="Cidade"
+              {...register("city", { required: true })}
+            /> */}
             <Input
               type="email"
               placeholder="E-mail"
@@ -363,7 +389,7 @@ const RegisterCompanyForm = () => {
                 pattern: /^[0-9]{10,11}$/,
               })}
             />
-            <div className="flex gap-4 flex-col lg:flex-row">
+            <div className="flex gap-4 flex-col lg:flex-row ">
               <FormField
                 control={form.control}
                 name="garantee"
