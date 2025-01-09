@@ -17,7 +17,7 @@ import Link from "next/link";
 import { authServices } from "@/services/auth-services";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { setCookie } from "nookies";
@@ -77,7 +77,7 @@ const SignUp = () => {
       httpOnly: false, // O JavaScript pode acessar o cookie
     });
 
-    router.push("/dashboard");
+    router.push("/");
   };
 
   return (

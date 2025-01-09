@@ -7,6 +7,8 @@ import { useUserStore } from "@/store/user-store";
 import { useEffect } from "react";
 import { parseCookies } from "nookies";
 import useMiddleware from "@/middleware-client";
+import { authServices } from "@/services/auth-services";
+import SideBardOptionHoverCard from "@/components/ui/sidebar-option-hover-card";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -21,6 +23,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     decodeToken(cookies.token);
   }, []);
 
+  const handleLogOut = () => {
+    authServices.logOut();
+  };
+
   useMiddleware();
 
   return (
@@ -28,9 +34,13 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <div className="bg-[#DADADA] p-2 md:rounded-lg flex flex-row items-center justify-between md:flex-col md:bg-white dark:bg-woodsmoke-200">
         <SidebarMenu />
 
-        <div className="flex flex-col justify-center items-center hidden">
+        <div className="flex flex-col justify-center items-center ">
           <Separator />
-          <LogOut className="size-10 text-7xl p-2 hover:cursor-pointer" />
+          <div onClick={handleLogOut}>
+            <SideBardOptionHoverCard items={[{ name: "Sair", path: "#" }]}>
+              <LogOut className="size-full hover:cursor-pointer" />
+            </SideBardOptionHoverCard>
+          </div>
         </div>
       </div>
 

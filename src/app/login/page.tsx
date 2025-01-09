@@ -47,7 +47,7 @@ const Login = () => {
       });
 
       decodeToken(result.token);
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       setLoading(false);
       if ((error as AxiosError)?.response?.status === 500 || 501) {

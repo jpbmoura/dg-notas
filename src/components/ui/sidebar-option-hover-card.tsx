@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
+import { usePathname } from "next/navigation";
 
 interface SideBardOptionHoverCardProps {
   items: { name: string; path?: string }[];
@@ -16,6 +17,7 @@ const SideBardOptionHoverCard = ({
 }: SideBardOptionHoverCardProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -31,6 +33,10 @@ const SideBardOptionHoverCard = ({
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
+  // useEffect(() => {
+  //   return () => {};
+  // }, [pathname]);
+
   return (
     <div
       onClick={() => setOpen(true)}
@@ -39,7 +45,17 @@ const SideBardOptionHoverCard = ({
     >
       <HoverCard openDelay={0} closeDelay={0} open={open}>
         <HoverCardTrigger
-          className="flex justify-center items-center size-10 p-2 "
+          className={`flex ${
+            items[0].path &&
+            items[0].path.length > 1 &&
+            pathname.startsWith(items[0].path)
+              ? "text-[#3E80F9]"
+              : items[0].path &&
+                items[0].path.length === 1 &&
+                items[0].path !== "#" &&
+                pathname.length === 1 &&
+                "text-[#3E80F9]"
+          } justify-center items-center size-10 p-2 hover:cursor-pointer hover:text-[#3E80F9] rounded-md`}
           onClick={() => {
             if (items[0].path) router.push(items[0].path);
           }}

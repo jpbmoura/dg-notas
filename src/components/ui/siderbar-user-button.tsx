@@ -5,9 +5,8 @@ import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { useThemeStore } from "@/store/theme-store";
 import { useEffect, useState } from "react";
-import { setCookie } from "nookies";
-import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";
+import { authServices } from "@/services/auth-services";
 
 // function isMobileScreen() {
 //   return window.innerWidth <= 768;
@@ -17,7 +16,6 @@ const SideBarUserButton = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { isDark, setIsDark } = useThemeStore();
   const { userName } = useUserStore();
-  const router = useRouter();
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -31,19 +29,13 @@ const SideBarUserButton = () => {
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  const handleLogOut = () => {
-    console.log("saindo");
-
-    setCookie(null, "token", "", {
-      maxAge: 0, // Remove o cookie imediatamente
-      path: "/", // Certifique-se de usar o mesmo caminho do cookie original
-    });
-    router.push("/login");
+  const handleLogOut = async () => {
+    await authServices.logOut();
   };
 
   return (
     <Popover>
-      <PopoverTrigger className="flex justify-center items-center size-10 rounded-full p-2   dark:text-white">
+      <PopoverTrigger className="flex justify-center items-center size-10 rounded-full p-2 hover:text-[#3E80F9]  dark:text-woodsmoke-50">
         <User className="size-full" />
       </PopoverTrigger>
       <PopoverContent

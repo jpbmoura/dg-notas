@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { setCookie } from "nookies";
 import { post } from "../helpers/api/api";
 
 export interface IUserLogin {
@@ -12,6 +13,13 @@ export interface IUserCreate {
 }
 
 class AuthServices {
+  public logOut = async (): Promise<any> => {
+    setCookie(null, "token", "", {
+      maxAge: 0, // Remove o cookie imediatamente
+      path: "/", // Certifique-se de usar o mesmo caminho do cookie original
+    });
+    window.location.href = "/login";
+  };
   public userAuthenticate = async (data: IUserLogin): Promise<any> => {
     try {
       const response = await post(

@@ -10,20 +10,18 @@ import SideBardOptionHoverCard from "@/components/ui/sidebar-option-hover-card";
 const SidebarMenu = () => {
   return (
     <div className="flex flex-row gap-4 items-center md:flex-col ">
-      <Button variant="ghost" className="size-[60px] p-[5px]">
+      <Button variant="ghost" className="size-[60px] p-[5px] ">
         <Image src={dgLogo} alt="dg-notas-logo" />
       </Button>
 
       <SideBarUserButton />
 
       {/* exemplo de uso de menu */}
-      <SideBardOptionHoverCard items={[{ name: "Início", path: "#" }]}>
+      <SideBardOptionHoverCard items={[{ name: "Início", path: "/" }]}>
         <House className="size-full" />
       </SideBardOptionHoverCard>
 
-      <SideBardOptionHoverCard
-        items={[{ name: "Empresas", path: "/dashboard/empresa" }]}
-      >
+      <SideBardOptionHoverCard items={[{ name: "Empresas", path: "/empresa" }]}>
         <Building2 className="size-full" />
       </SideBardOptionHoverCard>
       <SideBardOptionHoverCard items={[{ name: "Produtos", path: "#" }]}>

@@ -19,7 +19,7 @@ import { AxiosError } from "axios";
 import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -44,7 +44,7 @@ const RegisterCompanyForm = () => {
         title: "Usuário criado com sucesso",
         description: "Faça login para acessar o sistema",
       });
-      router.push("/dashboard/empresa");
+      router.push("/empresa");
     } catch (error) {
       if ((error as AxiosError)?.response?.status === 400) {
         toast({
@@ -451,7 +451,7 @@ const RegisterCompanyForm = () => {
           </div>
         </div>
         <div className="flex gap-2 justify-end">
-          <Link className="underline " href="/dashboard/empresa">
+          <Link className="underline " href="/empresa">
             <Button variant={"outline"}>cancelar</Button>
           </Link>
           <Button variant={"primary"} type="submit">

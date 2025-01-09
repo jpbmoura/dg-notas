@@ -1,5 +1,6 @@
 "use client";
 import { Roboto } from "next/font/google";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 import "./globals.css";
 import { useThemeStore } from "@/store/theme-store";
@@ -33,6 +34,12 @@ export default function RootLayout({
       <body className={`${roboto.className} ${isDark && "dark "} antialiased`}>
         {children}
         <Toaster />
+        <ProgressBar
+          height="3px"
+          color="#3E80F9"
+          options={{ showSpinner: false }}
+          shallowRouting
+        />
       </body>
     </html>
   );

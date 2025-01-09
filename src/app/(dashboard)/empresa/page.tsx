@@ -174,20 +174,20 @@ const Empresas = () => {
       <h1 className="font-semibold text-3xl pt-2">Empresas</h1>
       <Separator />
       <div className="flex gap-2 justify-end h-fit w-full">
-        <div className="h-full w-full md:w-fit flex justify-center border border-gray-300 rounded-md ">
+        <div className="h-full w-full md:w-fit flex justify-center border border-gray-300 rounded-md dark:border-woodsmoke-100">
           <Input
             type="text"
             placeholder="Pesquisar"
             className="rounded-md rounded-tr-none rounded-br-none pl-2 "
           />
-          <Button variant={"secondary"}>
+          <Button variant={"secondary"} className="dark:bg-woodsmoke-100">
             <Search />
           </Button>
         </div>
-        <Link className="" href="/dashboard/empresa/cadastrar">
+        <Link className="" href="/empresa/cadastrar">
           <Button
             variant={"outline"}
-            className="flex  items-center justify-center"
+            className="flex  items-center justify-center dark:bg-woodsmoke-100"
           >
             <Plus />
             <div className="hidden md:flex">Cadastrar</div>
