@@ -291,30 +291,72 @@ const RegisterCompanyForm = () => {
             />
           </div>
           <div className="flex flex-col gap-4 md:flex-1">
-            <Input
-              type="text"
-              placeholder="CEP"
-              {...register("zipcode", { required: true })}
+            <FormField
+              name="zipcode"
+              render={() => (
+                <Input
+                  type="text"
+                  placeholder="CEP"
+                  {...register("zipcode", {
+                    required: true,
+                    value: "18.044-390",
+                  })}
+                  disabled
+                />
+              )}
             />
-            <Input
-              type="text"
-              placeholder="Logradouro"
-              {...register("address", { required: true })}
+            <FormField
+              name="Logradouro"
+              render={() => (
+                <Input
+                  type="text"
+                  placeholder="Logradouro"
+                  {...register("address", {
+                    required: true,
+                    value: "Avenida Sorocaba",
+                  })}
+                  disabled
+                />
+              )}
             />
-            <Input
-              type="text"
-              placeholder="Número"
-              {...register("addressNumber", { required: true })}
+            <FormField
+              name="addressNumber"
+              render={() => (
+                <Input
+                  type="text"
+                  placeholder="Número"
+                  {...register("addressNumber", {
+                    required: true,
+                    value: "500",
+                  })}
+                  disabled
+                />
+              )}
             />
-            <Input
-              type="text"
-              placeholder="Complemento"
-              {...register("addressComplement")}
+            <FormField
+              name="addressComplement"
+              render={() => (
+                <Input
+                  type="text"
+                  placeholder="Complemento"
+                  {...register("addressComplement", { value: "Sala 01" })}
+                  disabled
+                />
+              )}
             />
-            <Input
-              type="text"
-              placeholder="Bairro"
-              {...register("district", { required: true })}
+            <FormField
+              name="district"
+              render={() => (
+                <Input
+                  type="text"
+                  placeholder="Bairro"
+                  {...register("district", {
+                    required: true,
+                    value: "Jardim das Magnolias",
+                  })}
+                  disabled
+                />
+              )}
             />
 
             <FormField
@@ -322,21 +364,25 @@ const RegisterCompanyForm = () => {
               name="state"
               render={({ field }) => (
                 <FormItem
-                  {...register("state", { required: true })}
+                  {...register("state", { required: true, value: "São Paulo" })}
                   className=" "
                 >
                   <FormLabel>Estado</FormLabel>
                   <Select
+                    disabled
                     {...register("state")}
                     onValueChange={field.onChange}
                     onOpenChange={field.onBlur}
+                    value="São Paulo"
                   >
                     <SelectTrigger className="">
-                      <SelectValue placeholder="Selecione uma opção..." />
+                      {/* <SelectValue placeholder="Selecione uma opção..." /> */}
+                      <SelectValue placeholder="São Paulo" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="Pará">Pará</SelectItem>
+                        <SelectItem value="São Paulo">São Paulo</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -348,21 +394,24 @@ const RegisterCompanyForm = () => {
               name="city"
               render={({ field }) => (
                 <FormItem
-                  {...register("city", { required: true })}
+                  {...register("city", { required: true, value: "Sorocaba" })}
                   className=" "
                 >
                   <FormLabel>Cidade</FormLabel>
                   <Select
+                    disabled
                     {...register("city")}
                     onValueChange={field.onChange}
                     onOpenChange={field.onBlur}
+                    value="Sorocaba"
                   >
                     <SelectTrigger className="">
-                      <SelectValue placeholder="Selecione uma opção..." />
+                      <SelectValue placeholder="Sorocaba" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectItem value="Pará">Pará</SelectItem>
+                        <SelectItem value="Sorocaba">Sorocaba</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

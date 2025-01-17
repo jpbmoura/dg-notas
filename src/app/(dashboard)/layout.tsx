@@ -36,7 +36,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
         <div className="flex flex-col justify-center items-center ">
           <Separator />
-          <div onClick={handleLogOut}>
+          <div onClick={handleLogOut} className="hidden sm:flex">
             <SideBardOptionHoverCard items={[{ name: "Sair", path: "#" }]}>
               <LogOut className="size-full hover:cursor-pointer" />
             </SideBardOptionHoverCard>

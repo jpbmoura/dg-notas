@@ -14,6 +14,15 @@ import { ActionPopover } from "./action-popover";
 import { companyServices } from "@/services/company-services";
 import { useUserStore } from "@/store/user-store";
 import { useCompanies } from "@/store/company-store";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 // interface Invoice {
 //   id: number;
@@ -37,41 +46,59 @@ const CompanyTable = () => {
   }, [id]);
 
   return (
-    <Table className="overflow-hidden">
-      <TableHeader className="dark:bg-woodsmoke-400 bg-[#f5f5f5]">
-        <TableRow className="dark:border-woodsmoke-100">
-          <TableHead className="text-center">NOME</TableHead>
-          <TableHead className="text-center">RAZÃO SOCIAL</TableHead>
-          <TableHead className="text-center">CNPJ</TableHead>
-          <TableHead className="text-center">E-MAIL</TableHead>
-          <TableHead className="text-center">TELEFONE</TableHead>
-          <TableHead className="text-center">AÇÕES</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody className="dark:bg-woodsmoke-300 overflow-auto">
-        {companies.map((invoice) => (
-          <TableRow key={invoice.id} className="dark:border-woodsmoke-100">
-            <TableCell className="text-center">{invoice.name}</TableCell>
-            <TableCell className="text-center">
-              {invoice.companySocialName}
-            </TableCell>
-            <TableCell className="text-center">
-              {invoice.socialSecurityNumber}
-            </TableCell>
-            <TableCell className="text-center">{invoice.email}</TableCell>
-            <TableCell className="text-center">{invoice.phone}</TableCell>
-            <TableCell className="text-center">
-              <ActionPopover />
-            </TableCell>
+    <div className="w-full">
+      <Table className="overflow-hidden">
+        <TableHeader className="dark:bg-woodsmoke-400 bg-[#f5f5f5]">
+          <TableRow className="dark:border-woodsmoke-100">
+            <TableHead className="text-center">NOME</TableHead>
+            <TableHead className="text-center">RAZÃO SOCIAL</TableHead>
+            <TableHead className="text-center">CNPJ</TableHead>
+            <TableHead className="text-center">E-MAIL</TableHead>
+            <TableHead className="text-center">TELEFONE</TableHead>
+            <TableHead className="text-center">AÇÕES</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter className="dark:border-woodsmoke-100">
-        <TableRow className="">
-          <TableCell colSpan={10}></TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+        </TableHeader>
+        <TableBody className="dark:bg-woodsmoke-300 overflow-auto">
+          {companies.map((invoice) => (
+            <TableRow key={invoice.id} className="dark:border-woodsmoke-100">
+              <TableCell className="text-center">{invoice.name}</TableCell>
+              <TableCell className="text-center">
+                {invoice.companySocialName}
+              </TableCell>
+              <TableCell className="text-center">
+                {invoice.socialSecurityNumber}
+              </TableCell>
+              <TableCell className="text-center">{invoice.email}</TableCell>
+              <TableCell className="text-center">{invoice.phone}</TableCell>
+              <TableCell className="text-center">
+                <ActionPopover />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter className="dark:border-woodsmoke-100">
+          <TableRow className="">
+            <TableCell colSpan={10}></TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 };
 
