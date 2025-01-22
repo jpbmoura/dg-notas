@@ -14,11 +14,11 @@ export interface ICompany {
   district: string;
   city: string;
   state: string;
-  socialCountyNumber: string;
-  socialSecurityStateNumber: string;
-  CNAE: string;
-  taxOption: number;
-  specialTaxOption?: number;
+  securityCountyNumber: string;
+  securityStateNumber: string;
+  CNAE?: string[];
+  taxOptions: number;
+  specialTaxOptions?: number;
   garantee: number;
   sendEmail: boolean;
   email: string;
@@ -57,7 +57,7 @@ class CompanyServices {
       ).then((response: any) => {
         console.log(response, "response");
 
-        return response.companies;
+        return response;
       });
 
       return response;

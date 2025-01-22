@@ -14,15 +14,8 @@ import { ActionPopover } from "./action-popover";
 import { companyServices } from "@/services/company-services";
 import { useUserStore } from "@/store/user-store";
 import { useCompanies } from "@/store/company-store";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+
+import Paginator from "@/components/ui/paginator";
 
 // interface Invoice {
 //   id: number;
@@ -35,15 +28,31 @@ import {
 
 const CompanyTable = () => {
   const { id } = useUserStore();
-  const { companies, setCompanies } = useCompanies();
+  const {
+    companies,
+    setCompanies,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setTotalPages,
+  } = useCompanies();
 
   useEffect(() => {
     if (!id) return;
     if (companies.length > 0) return;
     companyServices.getAll(1, id).then((response) => {
-      setCompanies(response);
+      setTotalPages(response.totalPages);
+      setCurrentPage(response.currentPage);
+      setCompanies(response.companies);
     });
   }, [id]);
+
+  const handlePageChange = (pageNumber: number) => {
+    companyServices.getAll(pageNumber, id).then((response) => {
+      setCurrentPage(response.currentPage);
+      setCompanies(response.companies);
+    });
+  };
 
   return (
     <div className="w-full">
@@ -71,7 +80,7 @@ const CompanyTable = () => {
               <TableCell className="text-center">{invoice.email}</TableCell>
               <TableCell className="text-center">{invoice.phone}</TableCell>
               <TableCell className="text-center">
-                <ActionPopover />
+                <ActionPopover item={invoice} />
               </TableCell>
             </TableRow>
           ))}
@@ -82,22 +91,16 @@ const CompanyTable = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <div className="py-2">
+        {!(totalPages <= 1) && (
+          <Paginator
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(pageNumber) => handlePageChange(pageNumber)}
+            showPreviousNext
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,8 +1,11 @@
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Plus, Search } from "lucide-react";
+import {
+  Plus,
+  // Search
+} from "lucide-react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import CompanyTable from "./company-table";
 
 // const invoices = [
@@ -174,7 +177,7 @@ const Empresas = () => {
       <h1 className="font-semibold text-3xl pt-2">Empresas</h1>
       <Separator />
       <div className="flex gap-2 justify-end h-fit w-full">
-        <div className="h-full w-full md:w-fit flex justify-center border border-gray-300 rounded-md dark:border-woodsmoke-100">
+        {/* <div className="h-full w-full md:w-fit flex justify-center border border-gray-300 rounded-md dark:border-woodsmoke-100">
           <Input
             type="text"
             placeholder="Pesquisar"
@@ -183,7 +186,7 @@ const Empresas = () => {
           <Button variant={"secondary"} className="dark:bg-woodsmoke-100">
             <Search />
           </Button>
-        </div>
+        </div> */}
         <Link className="" href="/empresa/cadastrar">
           <Button
             variant={"outline"}

@@ -12,11 +12,11 @@ export interface Icompanies {
   district: string;
   city: string;
   state: string;
-  socialCountyNumber: string;
-  socialSecurityStateNumber: string;
+  securityCountyNumber: string;
+  securityStateNumber: string;
   CNAE: string;
-  taxOption: number;
-  specialTaxOption?: number;
+  taxOptions: string;
+  specialTaxOptions?: number;
   garantee: number;
   sendEmail: boolean;
   email: string;
@@ -25,13 +25,27 @@ export interface Icompanies {
 
 interface CompanyStore {
   companies: Icompanies[];
+  totalPages: number;
+  currentPage: number;
   setCompanies: (value: Icompanies[]) => void;
+  setTotalPages: (value: number) => void;
+  setCurrentPage: (value: number) => void;
 }
 
 export const useCompanies = create<CompanyStore>()((set) => ({
   companies: [],
+  totalPages: 1,
+  currentPage: 1,
   setCompanies: (items) =>
     set(() => ({
       companies: items,
+    })),
+  setTotalPages: (value) =>
+    set(() => ({
+      totalPages: value,
+    })),
+  setCurrentPage: (value) =>
+    set(() => ({
+      currentPage: value,
     })),
 }));

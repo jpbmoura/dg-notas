@@ -16,19 +16,126 @@ import { toast } from "@/hooks/use-toast";
 import { companyServices, ICompany } from "@/services/company-services";
 import { useUserStore } from "@/store/user-store";
 import { AxiosError } from "axios";
-import { Download } from "lucide-react";
+import { Circle, Download, Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Icompanies } from "@/store/company-store";
+import { MultiSelect } from "@/components/ui/multi-select";
 
-const RegisterCompanyForm = () => {
+const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
   const { register, handleSubmit } = useForm<ICompany>();
   const { id } = useUserStore();
   const router = useRouter();
   const form = useForm();
   const [preview, setPreview] = useState("");
+  const [editable, setEditable] = useState(false);
+  const cnae = [
+    {
+      value: "2062",
+      label: "2062 - SOCIEDADE EMPRESÁRIA LIMITADA",
+      icon: Circle,
+    },
+    {
+      value: "8599604",
+      label:
+        "8599604 - TREINAMENTO EM DESENVOLVIMENTO PROFISSIONAL E GERENCIAL",
+      icon: Circle,
+    },
+    {
+      value: "4761001",
+      label: "4761001 - COMÉRCIO VAREJISTA DE LIVROS",
+      icon: Circle,
+    },
+    { value: "5811500", label: "5811500 - EDIÇÃO DE LIVROS", icon: Circle },
+    {
+      value: "6202300",
+      label:
+        "6202300 - DESENVOLVIMENTO E LICENCIAMENTO DE PROGRAMAS DE COMPUTADOR CUSTOMIZÁVEIS",
+      icon: Circle,
+    },
+    {
+      value: "6203100",
+      label:
+        "6203100 - DESENVOLVIMENTO E LICENCIAMENTO DE PROGRAMAS DE COMPUTADOR NÃO-CUSTOMIZÁVEIS",
+      icon: Circle,
+    },
+    {
+      value: "6209100",
+      label:
+        "6209100 - SUPORTE TÉCNICO, MANUTENÇÃO E OUTROS SERVIÇOS EM TECNOLOGIA DA INFORMAÇÃO",
+      icon: Circle,
+    },
+    {
+      value: "6319400",
+      label:
+        "6319400 - PORTAIS, PROVEDORES DE CONTEÚDO E OUTROS SERVIÇOS DE INFORMAÇÃO NA INTERNET",
+      icon: Circle,
+    },
+    {
+      value: "6463800",
+      label: "6463800 - OUTRAS SOCIEDADES DE PARTICIPAÇÃO, EXCETO HOLDINGS",
+      icon: Circle,
+    },
+    {
+      value: "7020400",
+      label:
+        "7020400 - ATIVIDADES DE CONSULTORIA EM GESTÃO EMPRESARIAL, EXCETO CONSULTORIA TÉCNICA ESPECÍFICA",
+      icon: Circle,
+    },
+    { value: "7319002", label: "7319002 - PROMOÇÃO DE VENDAS", icon: Circle },
+    { value: "7319003", label: "7319003 - MARKETING DIRETO", icon: Circle },
+    {
+      value: "7319004",
+      label: "7319004 - CONSULTORIA EM PUBLICIDADE",
+      icon: Circle,
+    },
+    {
+      value: "8219999",
+      label:
+        "8219999 - PREPARAÇÃO DE DOCUMENTOS E SERVIÇOS ESPECIALIZADOS DE APOIO ADMINISTRATIVO NÃO ESPECIFICADOS ANTERIORMENTE",
+      icon: Circle,
+    },
+    {
+      value: "8531700",
+      label: "8531700 - EDUCAÇÃO SUPERIOR - GRADUAÇÃO",
+      icon: Circle,
+    },
+    {
+      value: "8532500",
+      label: "8532500 - EDUCAÇÃO SUPERIOR - GRADUAÇÃO E PÓS-GRADUAÇÃO",
+      icon: Circle,
+    },
+    {
+      value: "8533300",
+      label: "8533300 - EDUCAÇÃO SUPERIOR - PÓS-GRADUAÇÃO E EXTENSÃO",
+      icon: Circle,
+    },
+    {
+      value: "8542200",
+      label: "8542200 - EDUCAÇÃO PROFISSIONAL DE NÍVEL TECNOLÓGICO",
+      icon: Circle,
+    },
+  ];
+  const [selectedCnae, setSelectedCnae] = useState<string[]>(
+    item ? [item.CNAE] : [cnae[1].value]
+  );
+
+  const togleEdit = () => {
+    if (item && item.id) {
+      setEditable(!editable);
+    }
+  };
+
+  const verifyEdit = () => {
+    if (item) {
+      return !editable;
+    } else {
+      return false;
+    }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<ICompany> = async (data) => {
@@ -60,10 +167,11 @@ const RegisterCompanyForm = () => {
   const transformData = (data: any) => {
     return {
       ...data,
-      taxOption: Number(data.taxOption),
-      specialTaxOption: Number(data.specialTaxOption),
+      taxOptions: Number(data.taxOptions),
+      specialTaxOptions: Number(data.specialTaxOptions),
       garantee: Number(data.garantee),
       sendEmail: data.sendEmail === "true",
+      CNAE: selectedCnae,
     };
   };
 
@@ -119,30 +227,49 @@ const RegisterCompanyForm = () => {
                 <Input
                   {...register("socialName", {
                     required: true,
+                    value: item ? item?.companySocialName : "",
                   })}
-                  className="w-full "
+                  disabled={verifyEdit()}
+                  className="w-full"
                   type="text"
-                  placeholder="Razão social"
+                  placeholder={"Razão social"}
                 />
+
                 <Input
-                  {...register("coreName", { required: true })}
+                  {...register("coreName", {
+                    required: true,
+                    value: item ? item?.name : "",
+                  })}
+                  disabled={verifyEdit()}
                   type="text"
                   placeholder="Nome dantasia"
                 />
                 <Input
-                  {...register("socialSecurityNumber", { required: true })}
+                  {...register("socialSecurityNumber", {
+                    required: true,
+                    value: item ? item?.socialSecurityNumber : "",
+                  })}
+                  disabled={verifyEdit()}
                   type="text"
                   placeholder="CNPJ"
                 />
               </div>
             </div>
             <Input
-              {...register("socialCountyNumber", { required: true })}
+              {...register("securityCountyNumber", {
+                required: true,
+                value: item ? item.securityCountyNumber : "",
+              })}
+              disabled={verifyEdit()}
               type="text"
               placeholder="Inscrição municipal"
             />
             <Input
-              {...register("socialSecurityStateNumber", { required: true })}
+              {...register("securityStateNumber", {
+                required: true,
+                value: item ? item?.securityStateNumber : "",
+              })}
+              disabled={verifyEdit()}
               type="text"
               placeholder="Inscrição estadual"
             />
@@ -206,43 +333,31 @@ const RegisterCompanyForm = () => {
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="cnae"
-              render={({ field }) => (
-                <FormItem
-                  {...register("CNAE", { required: true })}
-                  className="pt-5"
-                >
-                  <FormLabel>CNAE</FormLabel>
-                  <Select
-                    {...register("CNAE")}
-                    onValueChange={field.onChange}
-                    onOpenChange={field.onBlur}
-                  >
-                    <SelectTrigger className="">
-                      <SelectValue placeholder="Selecione uma opção..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="6201-9">6201-9</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
+
+            <MultiSelect
+              options={cnae}
+              label="CNAE"
+              disabled={item && !editable}
+              onValueChange={setSelectedCnae}
+              defaultValue={selectedCnae}
+              placeholder="Selecionar CNAE..."
             />
+
             <FormField
               control={form.control}
-              name="taxOption"
+              name="taxOptions"
               render={({ field }) => (
                 <FormItem
-                  {...register("taxOption", { required: true })}
+                  {...register("taxOptions", {
+                    required: true,
+                  })}
                   className=" "
                 >
                   <FormLabel>Regime de tributação</FormLabel>
                   <Select
-                    {...register("taxOption")}
+                    {...register("taxOptions")}
+                    disabled={verifyEdit()}
+                    defaultValue={item ? item.taxOptions : ""}
                     onValueChange={field.onChange}
                     onOpenChange={field.onBlur}
                   >
@@ -262,15 +377,20 @@ const RegisterCompanyForm = () => {
             />
             <FormField
               control={form.control}
-              name="specialTaxOption"
+              name="specialTaxOptions"
               render={({ field }) => (
-                <FormItem {...register("specialTaxOption")} className="">
+                <FormItem {...register("specialTaxOptions")} className="">
                   <FormLabel>Regime de tibutação especial</FormLabel>
                   <Select
-                    {...register("specialTaxOption")}
+                    {...register("specialTaxOptions")}
                     onValueChange={field.onChange}
                     onOpenChange={field.onBlur}
-                    defaultValue="0"
+                    disabled={verifyEdit()}
+                    defaultValue={
+                      item && item.specialTaxOptions
+                        ? item.specialTaxOptions.toString()
+                        : "0"
+                    }
                   >
                     <SelectTrigger className="">
                       <SelectValue placeholder="Selecione uma opção..." />
@@ -428,7 +548,9 @@ const RegisterCompanyForm = () => {
               placeholder="E-mail"
               {...register("email", {
                 required: true,
+                value: item ? item?.email : "",
               })}
+              disabled={verifyEdit()}
             />
             <Input
               type="number"
@@ -436,7 +558,9 @@ const RegisterCompanyForm = () => {
               {...register("phone", {
                 required: true,
                 pattern: /^[0-9]{10,11}$/,
+                value: item ? item?.phone : "",
               })}
+              disabled={verifyEdit()}
             />
             <div className="flex gap-4 flex-col lg:flex-row ">
               <FormField
@@ -452,6 +576,8 @@ const RegisterCompanyForm = () => {
                       {...register("garantee")}
                       onValueChange={field.onChange}
                       onOpenChange={field.onBlur}
+                      disabled={verifyEdit()}
+                      defaultValue={item ? item.garantee.toString() : ""}
                     >
                       <SelectTrigger className="">
                         <SelectValue placeholder="Selecione uma opção..." />
@@ -482,6 +608,8 @@ const RegisterCompanyForm = () => {
                       {...register("sendEmail")}
                       onValueChange={field.onChange}
                       onOpenChange={field.onBlur}
+                      disabled={verifyEdit()}
+                      defaultValue={item ? item.sendEmail.toString() : ""}
                     >
                       <SelectTrigger className="">
                         <SelectValue placeholder="Selecione uma opção..." />
@@ -499,14 +627,26 @@ const RegisterCompanyForm = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 justify-end">
-          <Link className="underline " href="/empresa">
-            <Button variant={"outline"}>cancelar</Button>
-          </Link>
-          <Button variant={"primary"} type="submit">
-            Cadastrar
-          </Button>
-        </div>
+        {item && !editable ? (
+          <div className="flex gap-2 justify-center md:justify-end ">
+            <Button variant={"primary"} onClick={togleEdit}>
+              <Edit />
+              Editar informações
+            </Button>
+          </div>
+        ) : (
+          <div className="flex gap-2 justify-end">
+            {!item && (
+              <Link className="underline " href="/empresa">
+                <Button variant={"outline"}>cancelar</Button>
+              </Link>
+            )}
+
+            <Button variant={"primary"} type="submit">
+              {!item ? "Cadastrar" : "Atualizar"}
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );
