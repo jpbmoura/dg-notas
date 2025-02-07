@@ -120,7 +120,9 @@ const RegisterCompanyForm = ({ item }: { item?: ICompany }) => {
       icon: Circle,
     },
   ];
-  const [selectedCnae, setSelectedCnae] = useState<string[]>([]);
+  const [selectedCnae, setSelectedCnae] = useState<string[]>(
+    item && item.cnae ? item.cnae : [cnae[1].value]
+  );
 
   const togleEdit = () => {
     if (item && item.id) {
@@ -129,17 +131,17 @@ const RegisterCompanyForm = ({ item }: { item?: ICompany }) => {
   };
 
   useEffect(() => {
-    if (item) {
-      const values: string[] = [];
-      item.cnae?.map((cnae) => {
-        values.push(cnae);
-      });
-      console.log("entrei");
-      setSelectedCnae(values);
-    } else {
-      setSelectedCnae([cnae[1].value]);
-    }
-  }, [item]);
+    // if (item) {
+    //   const values: string[] = [];
+    //   item.cnae?.map((cnae) => {
+    //     values.push(cnae);
+    //   });
+    //   setSelectedCnae(values);
+    // } else {
+    //   console.log();
+    //   setSelectedCnae([cnae[1].value]);
+    // }
+  }, []);
 
   const verifyEdit = () => {
     if (item) {

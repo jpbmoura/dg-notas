@@ -62,7 +62,6 @@ export const MultiSelect = React.forwardRef<
 
     React.useEffect(() => {
       onValueChange(selectedValues);
-      console.log(selectedValues + " selectedValues");
     }, [selectedValues, onValueChange]);
 
     return (
