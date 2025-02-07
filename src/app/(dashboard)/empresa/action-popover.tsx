@@ -22,6 +22,17 @@ import { useEffect, useState } from "react";
 import { companyServices, ICompany } from "@/services/company-services";
 import { useUserStore } from "@/store/user-store";
 import { toast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export function ActionPopover({ item }: { item: ICompany }) {
   const [currentitem, setCurrentItem] = useState<ICompany>();
@@ -75,18 +86,38 @@ export function ActionPopover({ item }: { item: ICompany }) {
                 </DialogHeader>
               </DialogContent>
             </Dialog>
-
-            <div
-              className="cursor-pointer "
-              onClick={() => {
-                handledelete(currentitem?.id);
-              }}
-            >
-              <span className="hover:underline underline-offset-4 flex items-center">
-                {" "}
-                <Trash className="h-4" /> Excluir
-              </span>
-            </div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <div className="cursor-pointer ">
+                  <span className="hover:underline underline-offset-4 flex items-center">
+                    {" "}
+                    <Trash className="h-4" /> Excluir
+                  </span>
+                </div>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação não poderá ser desfeita. A empresa{" "}
+                    <span className="font-extrabold dark:text-zinc-50">
+                      {currentitem?.name}
+                    </span>{" "}
+                    será excluída.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      handledelete(currentitem?.id);
+                    }}
+                  >
+                    Sim
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </PopoverContent>

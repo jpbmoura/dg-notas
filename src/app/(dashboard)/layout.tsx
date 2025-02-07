@@ -21,6 +21,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const cookies = parseCookies();
 
     decodeToken(cookies.token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogOut = () => {

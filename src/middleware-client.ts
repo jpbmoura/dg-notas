@@ -21,6 +21,7 @@ const useMiddleware = () => {
       }
     };
     handleRouteChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, pathname]);
 };
 

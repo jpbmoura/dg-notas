@@ -46,6 +46,7 @@ const CompanyTable = () => {
       setCurrentPage(response.currentPage);
       setCompanies(response.companies);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handlePageChange = (pageNumber: number) => {
