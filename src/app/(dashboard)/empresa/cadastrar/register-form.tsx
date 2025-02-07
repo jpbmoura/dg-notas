@@ -11,27 +11,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { companyServices, ICompany } from "@/services/company-services";
 import { useUserStore } from "@/store/user-store";
 import { AxiosError } from "axios";
-import { Circle, Download, Edit } from "lucide-react";
+import { Circle, CircleCheck, Download, Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Icompanies } from "@/store/company-store";
+import { useCompanies } from "@/store/company-store";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { Toaster } from "@/components/ui/toaster";
 
-const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
+const RegisterCompanyForm = ({ item }: { item?: ICompany }) => {
   const { register, handleSubmit } = useForm<ICompany>();
   const { id } = useUserStore();
   const router = useRouter();
   const form = useForm();
   const [preview, setPreview] = useState("");
   const [editable, setEditable] = useState(false);
+  const { refreshCompanies, currentPage } = useCompanies();
   const cnae = [
     {
       value: "2062",
@@ -119,15 +120,26 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
       icon: Circle,
     },
   ];
-  const [selectedCnae, setSelectedCnae] = useState<string[]>(
-    item ? [item.CNAE] : [cnae[1].value]
-  );
+  const [selectedCnae, setSelectedCnae] = useState<string[]>([]);
 
   const togleEdit = () => {
     if (item && item.id) {
       setEditable(!editable);
     }
   };
+
+  useEffect(() => {
+    if (item) {
+      const values: string[] = [];
+      item.cnae?.map((cnae) => {
+        values.push(cnae);
+      });
+      console.log("entrei");
+      setSelectedCnae(values);
+    } else {
+      setSelectedCnae([cnae[1].value]);
+    }
+  }, [item]);
 
   const verifyEdit = () => {
     if (item) {
@@ -144,13 +156,31 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
       console.log(transformedData);
       console.log(id, "testee");
 
-      await companyServices.createCommpany(transformedData, id);
-      toast({
-        variant: "default",
-        tw: "bg-green-500",
-        title: "Usuário criado com sucesso",
-        description: "Faça login para acessar o sistema",
-      });
+      if (item && item.id) {
+        await companyServices.updateCompany(transformedData, item.id);
+
+        toast({
+          variant: "default",
+          action: (
+            <div className="w-full gap-2 flex items-center">
+              <CircleCheck className=" text-green-500" />
+              <span className="">Empresa atualizada com sucesso!</span>
+            </div>
+          ),
+        });
+      } else {
+        await companyServices.createCommpany(transformedData, id);
+        toast({
+          variant: "default",
+          action: (
+            <div className="w-full gap-2 flex items-center">
+              <CircleCheck className=" text-green-500" />
+              <span className="">Empresa criada com sucesso!</span>
+            </div>
+          ),
+        });
+      }
+      refreshCompanies(currentPage, id);
       router.push("/empresa");
     } catch (error) {
       if ((error as AxiosError)?.response?.status === 400) {
@@ -167,11 +197,9 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
   const transformData = (data: any) => {
     return {
       ...data,
-      taxOptions: Number(data.taxOptions),
-      specialTaxOptions: Number(data.specialTaxOptions),
-      garantee: Number(data.garantee),
+
       sendEmail: data.sendEmail === "true",
-      CNAE: selectedCnae,
+      cnae: selectedCnae,
     };
   };
 
@@ -189,7 +217,6 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
   return (
     <Form {...form}>
       <Toaster />
-
       <form onSubmit={handleSubmit(onSubmit)} className="flex h-full flex-col">
         <div className="flex-grow flex flex-col md:flex-row gap-4 pb-4">
           <div className="flex flex-col gap-4 md:flex-1">
@@ -225,7 +252,7 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
 
               <div className="w-full gap-4 flex flex-col">
                 <Input
-                  {...register("socialName", {
+                  {...register("companySocialName", {
                     required: true,
                     value: item ? item?.companySocialName : "",
                   })}
@@ -236,7 +263,7 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
                 />
 
                 <Input
-                  {...register("coreName", {
+                  {...register("name", {
                     required: true,
                     value: item ? item?.name : "",
                   })}
@@ -339,6 +366,7 @@ const RegisterCompanyForm = ({ item }: { item?: Icompanies }) => {
               label="CNAE"
               disabled={item && !editable}
               onValueChange={setSelectedCnae}
+              value={selectedCnae}
               defaultValue={selectedCnae}
               placeholder="Selecionar CNAE..."
             />

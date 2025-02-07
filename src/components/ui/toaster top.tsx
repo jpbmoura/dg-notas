@@ -7,10 +7,10 @@ import {
   ToastDescription,
   ToastProvider,
   ToastTitle,
-  ToastViewport,
+  ToastViewportTop,
 } from "@/components/ui/toast";
 
-export function Toaster() {
+export function TopToaster() {
   const { toasts } = useToast();
 
   return (
@@ -29,7 +29,7 @@ export function Toaster() {
           </Toast>
         );
       })}
-      <ToastViewport />
+      <ToastViewportTop />
     </ToastProvider>
   );
 }

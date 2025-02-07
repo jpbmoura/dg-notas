@@ -16,6 +16,7 @@ import { useUserStore } from "@/store/user-store";
 import { useCompanies } from "@/store/company-store";
 
 import Paginator from "@/components/ui/paginator";
+import { TopToaster } from "@/components/ui/toaster top";
 
 // interface Invoice {
 //   id: number;
@@ -56,6 +57,7 @@ const CompanyTable = () => {
 
   return (
     <div className="w-full">
+      <TopToaster />
       <Table className="overflow-hidden">
         <TableHeader className="dark:bg-woodsmoke-400 bg-[#f5f5f5]">
           <TableRow className="dark:border-woodsmoke-100">

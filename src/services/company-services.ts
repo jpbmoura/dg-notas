@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parseCookies } from "nookies";
-import { post, get } from "../helpers/api/api";
+import { post, get, patch, del } from "../helpers/api/api";
 
 export interface ICompany {
   id?: string;
-  coreName: string;
-  socialName: string;
+  name: string;
+  companySocialName: string;
   socialSecurityNumber: string;
   zipcode: string;
   address: string;
@@ -16,10 +16,10 @@ export interface ICompany {
   state: string;
   securityCountyNumber: string;
   securityStateNumber: string;
-  CNAE?: string[];
-  taxOptions: number;
-  specialTaxOptions?: number;
-  garantee: number;
+  cnae?: string[];
+  taxOptions: string;
+  specialTaxOptions?: string;
+  garantee: string;
   sendEmail: boolean;
   email: string;
   phone: string;
@@ -50,6 +50,48 @@ class CompanyServices {
 
       const response = await get(
         `https://dgnotas-dev.up.railway.app/company/find/all/${id}?page=${page}`,
+        null,
+        {
+          Authorization: "Bearer " + token,
+        }
+      ).then((response: any) => {
+        console.log(response, "response");
+
+        return response;
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+  public updateCompany = async (data: ICompany, id: string): Promise<any> => {
+    try {
+      const token = parseCookies().token;
+
+      const response = await patch(
+        `https://dgnotas-dev.up.railway.app/company/update/${id}`,
+        data,
+        {
+          Authorization: "Bearer " + token,
+        }
+      ).then((response: any) => {
+        console.log(response, "response");
+
+        return response;
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+  public delete = async (id: string): Promise<any> => {
+    try {
+      const token = parseCookies().token;
+
+      const response = await del(
+        `https://dgnotas-dev.up.railway.app/company/company/delete/${id}`,
         null,
         {
           Authorization: "Bearer " + token,

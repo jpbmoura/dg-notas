@@ -45,14 +45,10 @@ export const MultiSelect = React.forwardRef<
   HTMLButtonElement,
   MultiSelectProps
 >(
-  ({
-    options,
-    onValueChange,
-    defaultValue = [],
-    disabled,
-    label,
-    placeholder,
-  }) => {
+  (
+    { options, onValueChange, defaultValue = [], disabled, label, placeholder },
+    ref
+  ) => {
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
     const buttonRef = React.useRef<HTMLDivElement>(null);
@@ -65,17 +61,19 @@ export const MultiSelect = React.forwardRef<
     }, [buttonRef.current?.offsetWidth]);
 
     React.useEffect(() => {
-      return () => {
-        onValueChange(selectedValues);
-      };
-    }, [selectedValues]);
+      onValueChange(selectedValues);
+      console.log(selectedValues + " selectedValues");
+    }, [selectedValues, onValueChange]);
 
     return (
       <>
         <span className=" text-sm mb-[-8px] font-medium">{label}</span>
         <DropdownMenu>
           {disabled ? (
-            <div className="border min-h-9 border-woodsmoke-50 dark:border-woodsmoke-100 rounded p-1 flex justify-between px-2 w-full items-center">
+            <button
+              ref={ref}
+              className="border min-h-9 border-woodsmoke-50 dark:border-woodsmoke-100 rounded p-1 flex justify-between px-2 w-full items-center"
+            >
               <div
                 className="max-w-full max-h-16
              overflow-hidden"
@@ -92,7 +90,7 @@ export const MultiSelect = React.forwardRef<
                 })}
               </div>
               <ChevronDown className="h-4 text-[#797874]" />
-            </div>
+            </button>
           ) : (
             <DropdownMenuTrigger asChild>
               <div
@@ -130,7 +128,7 @@ export const MultiSelect = React.forwardRef<
             <DropdownMenuLabel>Selecione um ou mais opções</DropdownMenuLabel>
             {options.map((item) => {
               return (
-                <>
+                <React.Fragment key={item.value}>
                   <DropdownMenuSeparator />
                   <DropdownMenuCheckboxItem
                     checked={selectedValues.includes(item.value)}
@@ -146,7 +144,7 @@ export const MultiSelect = React.forwardRef<
                   >
                     {item.label}
                   </DropdownMenuCheckboxItem>
-                </>
+                </React.Fragment>
               );
             })}
           </DropdownMenuContent>

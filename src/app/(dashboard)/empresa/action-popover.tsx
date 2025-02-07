@@ -15,15 +15,28 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Icompanies } from "@/store/company-store";
+import { Icompanies, useCompanies } from "@/store/company-store";
 import { Edit, Ellipsis, Trash } from "lucide-react";
 import RegisterCompanyForm from "./cadastrar/register-form";
 import { useEffect, useState } from "react";
+import { companyServices, ICompany } from "@/services/company-services";
+import { useUserStore } from "@/store/user-store";
+import { toast } from "@/hooks/use-toast";
 
-export function ActionPopover({ item }: { item: Icompanies }) {
-  const [currentitem, setCurrentItem] = useState<Icompanies>();
-  const handledelete = () => {
-    console.log(item.securityCountyNumber);
+export function ActionPopover({ item }: { item: ICompany }) {
+  const [currentitem, setCurrentItem] = useState<ICompany>();
+  const { id } = useUserStore();
+  const { refreshCompanies, currentPage } = useCompanies();
+
+  const handledelete = (companyId: string | undefined) => {
+    if (!companyId) return;
+    companyServices.delete(companyId).then(() => {
+      refreshCompanies(currentPage, id);
+      toast({
+        variant: "destructive",
+        title: `Empresa ${currentitem?.socialSecurityNumber} Excluida!`,
+      });
+    });
   };
 
   useEffect(() => {
@@ -66,7 +79,7 @@ export function ActionPopover({ item }: { item: Icompanies }) {
             <div
               className="cursor-pointer "
               onClick={() => {
-                handledelete();
+                handledelete(currentitem?.id);
               }}
             >
               <span className="hover:underline underline-offset-4 flex items-center">

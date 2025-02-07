@@ -1,3 +1,4 @@
+import { companyServices, ICompany } from "@/services/company-services";
 import { create } from "zustand";
 
 export interface Icompanies {
@@ -14,22 +15,23 @@ export interface Icompanies {
   state: string;
   securityCountyNumber: string;
   securityStateNumber: string;
-  CNAE: string;
+  cnae: string;
   taxOptions: string;
-  specialTaxOptions?: number;
-  garantee: number;
+  specialTaxOptions?: string;
+  garantee: string;
   sendEmail: boolean;
   email: string;
   phone: string;
 }
 
 interface CompanyStore {
-  companies: Icompanies[];
+  companies: ICompany[];
   totalPages: number;
   currentPage: number;
-  setCompanies: (value: Icompanies[]) => void;
+  setCompanies: (value: ICompany[]) => void;
   setTotalPages: (value: number) => void;
   setCurrentPage: (value: number) => void;
+  refreshCompanies: (page: number, id: string) => void;
 }
 
 export const useCompanies = create<CompanyStore>()((set) => ({
@@ -48,4 +50,17 @@ export const useCompanies = create<CompanyStore>()((set) => ({
     set(() => ({
       currentPage: value,
     })),
+  refreshCompanies: (page: number, id: string) =>
+    companyServices.getAll(page, id).then((response) => {
+      set(() => ({
+        companies: response.companies,
+        totalPages: response.totalPages,
+        currentPage: response.currentPage,
+      }));
+    }),
+  // set(() => ({
+  //   companies: [],
+  //   totalPages: 1,
+  //   currentPage: 1,
+  // })),
 }));

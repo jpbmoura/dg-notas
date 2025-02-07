@@ -4,7 +4,6 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 import "./globals.css";
 import { useThemeStore } from "@/store/theme-store";
-import { Toaster } from "@/components/ui/toaster";
 import { useEffect } from "react";
 
 const roboto = Roboto({
@@ -33,7 +32,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} ${isDark && "dark "} antialiased`}>
         {children}
-        <Toaster />
         <ProgressBar
           height="3px"
           color="#3E80F9"
