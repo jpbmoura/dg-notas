@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Icompanies, useCompanies } from "@/store/company-store";
+import { useCompanies } from "@/store/company-store";
 import { Edit, Ellipsis, Trash } from "lucide-react";
 import RegisterCompanyForm from "./cadastrar/register-form";
 import { useEffect, useState } from "react";

@@ -19,7 +19,7 @@ import { Circle, CircleCheck, Download, Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCompanies } from "@/store/company-store";
 import { MultiSelect } from "@/components/ui/multi-select";
@@ -129,19 +129,6 @@ const RegisterCompanyForm = ({ item }: { item?: ICompany }) => {
       setEditable(!editable);
     }
   };
-
-  useEffect(() => {
-    // if (item) {
-    //   const values: string[] = [];
-    //   item.cnae?.map((cnae) => {
-    //     values.push(cnae);
-    //   });
-    //   setSelectedCnae(values);
-    // } else {
-    //   console.log();
-    //   setSelectedCnae([cnae[1].value]);
-    // }
-  }, []);
 
   const verifyEdit = () => {
     if (item) {
