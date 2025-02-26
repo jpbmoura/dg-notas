@@ -27,7 +27,7 @@ const SidebarMenu = () => {
       <SideBardOptionHoverCard items={[{ name: "Produtos", path: "#" }]}>
         <ShoppingBag className="size-full" />
       </SideBardOptionHoverCard>
-      <SideBardOptionHoverCard items={[{ name: "Notas", path: "#" }]}>
+      <SideBardOptionHoverCard items={[{ name: "Notas", path: "/notas" }]}>
         <FileText className="size-full" />
       </SideBardOptionHoverCard>
     </div>
